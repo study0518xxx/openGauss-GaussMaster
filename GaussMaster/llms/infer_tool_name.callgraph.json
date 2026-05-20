@@ -1,0 +1,19 @@
+{
+  "title": "infer_tool_name 调用关系图",
+  "nodes": [
+    {
+      "id": "node-1779157603624",
+      "label": "infer_tool_name",
+      "type": "code",
+      "symbol": {
+        "name": "infer_tool_name",
+        "uri": "openGauss-GaussMaster/GaussMaster/llms/executor.py",
+        "line": 42
+      },
+      "status": "normal",
+      "x": 400,
+      "y": 300
+    }
+  ],
+  "edges": []
+}

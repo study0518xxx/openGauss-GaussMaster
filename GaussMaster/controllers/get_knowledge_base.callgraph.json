@@ -1,0 +1,19 @@
+{
+  "title": "get_knowledge_base 调用关系图",
+  "nodes": [
+    {
+      "id": "node-1779157081322",
+      "label": "get_knowledge_base",
+      "type": "code",
+      "symbol": {
+        "name": "get_knowledge_base",
+        "uri": "openGauss-GaussMaster/GaussMaster/controllers/core.py",
+        "line": 254
+      },
+      "status": "normal",
+      "x": 400,
+      "y": 300
+    }
+  ],
+  "edges": []
+}
