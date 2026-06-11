@@ -11,7 +11,7 @@
 - [简历描述模板](#简历描述模板)
 - [项目启动与部署](#项目启动与部署)
 
----
+***
 
 ## 项目概述
 
@@ -33,12 +33,12 @@
 
 ### 1.2 解决什么问题？
 
-| 传统挑战 | GaussMaster 解决方案 |
-|---------|---------------------|
-| 运维复杂性高 | 自然语言交互，无需专业运维知识 |
-| 故障定位困难 | AI 智能诊断，快速定位根因 |
-| 巡检工作繁琐 | 自动巡检，一键生成报告 |
-| 调优门槛高 | 智能调优建议，自动索引推荐 |
+| 传统挑战   | GaussMaster 解决方案 |
+| ------ | ---------------- |
+| 运维复杂性高 | 自然语言交互，无需专业运维知识  |
+| 故障定位困难 | AI 智能诊断，快速定位根因   |
+| 巡检工作繁琐 | 自动巡检，一键生成报告      |
+| 调优门槛高  | 智能调优建议，自动索引推荐    |
 
 ### 1.3 技术亮点
 
@@ -50,13 +50,13 @@
 
 ### 1.4 项目规模
 
-| 指标 | 数值 |
-|------|------|
-| Python 文件数 | 100 个 |
-| 总代码行数 | 13,289 行 |
-| 模块数 | 7 个核心模块 |
+| 指标         | 数值       |
+| ---------- | -------- |
+| Python 文件数 | 100 个    |
+| 总代码行数      | 13,289 行 |
+| 模块数        | 7 个核心模块  |
 
----
+***
 
 ## 系统架构
 
@@ -147,33 +147,33 @@
          用户看到结果
 ```
 
----
+***
 
 ## 核心模块详解
 
 ### 3.1 模块规模一览
 
-| 模块 | 代码行数 | 占比 | 说明 |
-|------|---------|------|------|
-| **common** | 5,301 行 | 40% | 公共组件（HTTP、数据库、安全等） |
-| **multiagents** | 3,081 行 | 23% | 多Agent系统（核心业务） |
-| **utils** | 2,071 行 | 16% | 工具函数（文档处理、检索等） |
-| **server** | 1,184 行 | 9% | Web服务层 |
-| **llms** | 772 行 | 6% | 大模型集成 |
-| **controllers** | 359 行 | 3% | 控制器层（API路由） |
+| 模块              | 代码行数    | 占比  | 说明                 |
+| --------------- | ------- | --- | ------------------ |
+| **common**      | 5,301 行 | 40% | 公共组件（HTTP、数据库、安全等） |
+| **multiagents** | 3,081 行 | 23% | 多Agent系统（核心业务）     |
+| **utils**       | 2,071 行 | 16% | 工具函数（文档处理、检索等）     |
+| **server**      | 1,184 行 | 9%  | Web服务层             |
+| **llms**        | 772 行   | 6%  | 大模型集成              |
+| **controllers** | 359 行   | 3%  | 控制器层（API路由）        |
 
 ### 3.2 核心文件清单
 
-| 文件 | 核心职责 |
-|------|---------|
-| [`executor.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/llms/executor.py) | 工具调用发动机，5步流程 |
-| [`dba.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/multiagents/agents/dba.py) | 对话入口，多轮记忆管理 |
-| [`dbmind_interface.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/multiagents/tools/dbmind_interface.py) | 15+工具实现 |
-| [`prompt.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/llms/prompt.py) | Prompt工程模板 |
-| [`_service_impl.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/common/http/_service_impl.py) | HTTP服务封装 |
-| [`startup.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/startup.py) | 启动入口 |
+| 文件                                                                                                                        | 核心职责         |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| [`executor.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/llms/executor.py)                              | 工具调用发动机，5步流程 |
+| [`dba.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/multiagents/agents/dba.py)                          | 对话入口，多轮记忆管理  |
+| [`dbmind_interface.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/multiagents/tools/dbmind_interface.py) | 15+工具实现      |
+| [`prompt.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/llms/prompt.py)                                  | Prompt工程模板   |
+| [`_service_impl.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/common/http/_service_impl.py)             | HTTP服务封装     |
+| [`startup.py`](file:///c:/up2026/trae02/openGauss-GaussMaster/GaussMaster/startup.py)                                     | 启动入口         |
 
----
+***
 
 ## 技术实现原理
 
@@ -299,7 +299,7 @@ else:
 
 ### 4.3 工具注册机制（装饰器模式）
 
-**核心文件**: `multiagents/tools/dbmind_interface.py`
+#### **核心文件**: `multiagents/tools/dbmind_interface.py`
 
 ```python
 # 使用装饰器注册工具
@@ -322,7 +322,7 @@ def summary_alarms(start_time, end_time):
 
 **核心文件**: `llms/prompt.py`
 
-#### 工具匹配Prompt（TOOL_DES_ZH）
+#### 工具匹配Prompt（TOOL\_DES\_ZH）
 
 ```python
 TOOL_DES_ZH = """你是一名丰富经验的内容匹配专家。
@@ -336,7 +336,7 @@ TOOL_DES_ZH = """你是一名丰富经验的内容匹配专家。
 """
 ```
 
-#### 工具交互Prompt（TOOL_INTERACT_ZH）
+#### 工具交互Prompt（TOOL\_INTERACT\_ZH）
 
 ```python
 TOOL_INTERACT_ZH = """你是一个极有帮助的数据库智能运维助手。
@@ -381,34 +381,34 @@ RAG 流程：
 用户问题 → Embedding模型 → 向量化 → 向量数据库检索 → Top-K → Reranker重排 → 返回
 ```
 
----
+***
 
 ## 开发AI Agent步骤
 
 ### 5.1 七步开发法
 
-| 步骤 | 核心问题 | 产出物 |
-|------|---------|--------|
-| 1️⃣ 角色定义 | Agent是谁？ | System Prompt |
-| 2️⃣ 工具定义 | Agent能做什么？ | @tool 装饰的函数 |
-| 3️⃣ 推理流程 | 怎么做决策？ | if-else / 状态机 |
-| 4️⃣ Agent类 | 怎么组装？ | Class with interaction() |
-| 5️⃣ 记忆机制 | 怎么记住？ | Memory System |
-| 6️⃣ Prompt工程 | 怎么说服LLM？ | Prompt Templates |
-| 7️⃣ 测试优化 | 效果怎么样？ | Test Cases |
+| 步骤           | 核心问题       | 产出物                      |
+| ------------ | ---------- | ------------------------ |
+| 1️⃣ 角色定义     | Agent是谁？   | System Prompt            |
+| 2️⃣ 工具定义     | Agent能做什么？ | @tool 装饰的函数              |
+| 3️⃣ 推理流程     | 怎么做决策？     | if-else / 状态机            |
+| 4️⃣ Agent类   | 怎么组装？      | Class with interaction() |
+| 5️⃣ 记忆机制     | 怎么记住？      | Memory System            |
+| 6️⃣ Prompt工程 | 怎么说服LLM？   | Prompt Templates         |
+| 7️⃣ 测试优化     | 效果怎么样？     | Test Cases               |
 
 ### 5.2 GaussMaster对应的实现
 
-| 步骤 | GaussMaster 实现 |
-|------|-----------------|
-| 1️⃣ 角色定义 | `PREFIX_ZH` (prompt.py) |
-| 2️⃣ 工具定义 | `@base_tools` 装饰器 (dbmind_interface.py) |
-| 3️⃣ 推理流程 | executor.py 的 5 步流程 |
-| 4️⃣ Agent类 | `DBA(BaseAgent)` (dba.py) |
-| 5️⃣ 记忆机制 | 内存 + SQLite 双层 (dba.py) |
-| 6️⃣ Prompt工程 | `TOOL_INTERACT_ZH` 等 (prompt.py) |
+| 步骤           | GaussMaster 实现                           |
+| ------------ | ---------------------------------------- |
+| 1️⃣ 角色定义     | `PREFIX_ZH` (prompt.py)                  |
+| 2️⃣ 工具定义     | `@base_tools` 装饰器 (dbmind\_interface.py) |
+| 3️⃣ 推理流程     | executor.py 的 5 步流程                      |
+| 4️⃣ Agent类   | `DBA(BaseAgent)` (dba.py)                |
+| 5️⃣ 记忆机制     | 内存 + SQLite 双层 (dba.py)                  |
+| 6️⃣ Prompt工程 | `TOOL_INTERACT_ZH` 等 (prompt.py)         |
 
----
+***
 
 ## 面试热点问题
 
@@ -469,7 +469,7 @@ RAG 流程：
 
 **GaussMaster**：从 Flask 迁移的存量代码，封装是合理的过渡方案
 
----
+***
 
 ## 简历描述模板
 
@@ -502,7 +502,7 @@ openGauss-GaussMaster 数据库智能运维 Copilot 平台    2025.xx - 至今
 - 端到端加密方案，通过企业级安全审计
 ```
 
----
+***
 
 ## 项目启动与部署
 
@@ -518,11 +518,11 @@ if __name__ == "__main__":
 
 ### 7.2 三种启动模式
 
-| 命令 | 作用 |
-|------|------|
-| `python startup.py service setup -c conf` | 创建配置目录模板 |
+| 命令                                                     | 作用              |
+| ------------------------------------------------------ | --------------- |
+| `python startup.py service setup -c conf`              | 创建配置目录模板        |
 | `python startup.py service setup -c conf --initialize` | 初始化（知识库 + 数据库表） |
-| `python startup.py service start -c conf` | 启动 Web 服务 |
+| `python startup.py service start -c conf`              | 启动 Web 服务       |
 
 ### 7.3 命令行参数解析
 
@@ -570,27 +570,27 @@ python startup.py service start -c conf
 
 ### 7.6 启动后访问的API
 
-| API | 方法 | 功能 |
-|-----|------|------|
-| `/v1/api/ask_gauss` | POST | 智能问答 |
-| `/v1/api/clusters/register` | POST | 集群注册 |
-| `/v1/api/app/intelligent-interaction` | POST | 智能交互 |
-| `/v1/api/clusters` | GET | 获取集群状态 |
-| `/v1/api/llms` | GET | 获取可用模型 |
+| API                                   | 方法   | 功能     |
+| ------------------------------------- | ---- | ------ |
+| `/v1/api/ask_gauss`                   | POST | 智能问答   |
+| `/v1/api/clusters/register`           | POST | 集群注册   |
+| `/v1/api/app/intelligent-interaction` | POST | 智能交互   |
+| `/v1/api/clusters`                    | GET  | 获取集群状态 |
+| `/v1/api/llms`                        | GET  | 获取可用模型 |
 
----
+***
 
 ## 附录
 
 ### A. 已生成的相关文档
 
-| 文档 | 内容 |
-|------|------|
-| `openGauss-GaussMaster详解.md` | 项目概述 |
-| `GaussMaster-面试准备笔记.md` | 面试问题汇总 |
-| `GaussMaster-核心文件详解.md` | 核心文件代码分析 |
-| `GaussMaster-启动流程详解.md` | 启动流程详解 |
-| `GaussMaster-项目全解.md` | 本文档，整合所有内容 |
+| 文档                           | 内容         |
+| ---------------------------- | ---------- |
+| `openGauss-GaussMaster详解.md` | 项目概述       |
+| `GaussMaster-面试准备笔记.md`      | 面试问题汇总     |
+| `GaussMaster-核心文件详解.md`      | 核心文件代码分析   |
+| `GaussMaster-启动流程详解.md`      | 启动流程详解     |
+| `GaussMaster-项目全解.md`        | 本文档，整合所有内容 |
 
 ### B. 项目文件结构
 
@@ -621,6 +621,6 @@ GaussMaster/
 └── knowledge_base/          # 知识库文件
 ```
 
----
+***
 
 *本文档整合了 GaussMaster 项目所有核心知识点，基于 v1.0.0 版本*

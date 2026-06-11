@@ -1,4 +1,4 @@
-# GaussMaster ask_gauss 完整流程详解
+# GaussMaster ask\_gauss 完整流程详解
 
 ## 流程概览
 
@@ -27,11 +27,11 @@
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+***
 
 ## 详细流程
 
-### 1. 入口函数 ask_gauss
+### 1. 入口函数 ask\_gauss
 
 **位置**: `data_transformer.py` 第 448 行
 
@@ -75,7 +75,7 @@ else:
 gaussdb_vector.insert_qa_record(qa_dict)
 ```
 
----
+***
 
 ### 2. 敏感词检测
 
@@ -96,7 +96,7 @@ if (global_vars.configs.get(SECTION_SAFETY, 'safety_check').strip().upper() == '
 
 **作用**: 安全防护，防止用户询问敏感话题
 
----
+***
 
 ### 3. 直接检索 search
 
@@ -188,13 +188,13 @@ return {
 
 **多路召回说明**:
 
-| 检索方式 | 原理 | 作用 |
-|---------|------|------|
-| **向量检索** | Embedding 语义相似度 | 找到语义相关的文档 |
-| **文本检索** | 关键词匹配 | 找到包含关键词的文档 |
-| **重排序** | Reranker 模型 | 对合并结果重新排序，提升准确率 |
+| 检索方式     | 原理              | 作用              |
+| -------- | --------------- | --------------- |
+| **向量检索** | Embedding 语义相似度 | 找到语义相关的文档       |
+| **文本检索** | 关键词匹配           | 找到包含关键词的文档      |
+| **重排序**  | Reranker 模型     | 对合并结果重新排序，提升准确率 |
 
----
+***
 
 ### 4. 判断检索结果并处理
 
@@ -218,9 +218,9 @@ else:
         yield item
 ```
 
----
+***
 
-### 5. LLM 生成答案 llm_generation
+### 5. LLM 生成答案 llm\_generation
 
 **位置**: `data_transformer.py` 第 569-584 行
 
@@ -269,9 +269,9 @@ yield {'type': 'progress', 'data': '答案生成完成'}
 {"type": "complete", "data": {"time": 2.5, "question_id": "xxx", "answer_id": "xxx"}}
 ```
 
----
+***
 
-### 6. 查询优化 query_opt_process（HyDE）
+### 6. 查询优化 query\_opt\_process（HyDE）
 
 **位置**: `data_transformer.py` 第 596 行+
 
@@ -313,7 +313,7 @@ HyDE: 让 LLM 生成假设性回答
 生成最终答案
 ```
 
----
+***
 
 ### 7. 保存记录
 
@@ -332,7 +332,7 @@ finally:
     gaussdb_vector.insert_qa_record(qa_dict)
 ```
 
----
+***
 
 ## 完整流程图
 
@@ -386,20 +386,21 @@ finally:
          └───────┴───────────┘
 ```
 
----
+***
 
 ## 关键函数总结
 
-| 函数 | 位置 | 作用 |
-|------|------|------|
-| `ask_gauss()` | data_transformer.py:448 | RAG 主流程，协调各环节 |
-| `search()` | data_transformer.py:183 | 多路召回检索 |
-| `llm_generation()` | data_transformer.py:569 | LLM 流式生成答案 |
-| `query_opt_process()` | data_transformer.py:596 | HyDE 查询优化 |
-| `generate_answer()` | data_transformer.py:416 | 调用 LLM 生成 |
+| 函数                    | 位置                       | 作用            |
+| --------------------- | ------------------------ | ------------- |
+| `ask_gauss()`         | data\_transformer.py:448 | RAG 主流程，协调各环节 |
+| `search()`            | data\_transformer.py:183 | 多路召回检索        |
+| `llm_generation()`    | data\_transformer.py:569 | LLM 流式生成答案    |
+| `query_opt_process()` | data\_transformer.py:596 | HyDE 查询优化     |
+| `generate_answer()`   | data\_transformer.py:416 | 调用 LLM 生成     |
 
----
+***
 
 ## 一句话总结
 
 > `ask_gauss` 是完整的 RAG 流程：**敏感词检测 → 多路检索 → 判断结果 → 有结果直接生成 / 无结果 HyDE 优化 → 保存记录**。其中 `search` 实现了向量+文本+重排序的多路召回，是提升准确率的关键！
+
