@@ -42,26 +42,50 @@ app = FastAPI(title="GaussMaster Demo", docs_url="/docs")
 
 # ─── 路由 ───
 
+# 工具关键词 — 用来判断用户是想查数据还是问知识
+TOOL_KEYWORDS = ["查一下", "获取", "当前", "多少", "占用了", "帮我看", "连接"]
+
+
+def is_tool_query(query: str) -> bool:
+    """判断用户问题是否属于工具调用类（查CPU、慢SQL、连接数等）"""
+    return any(kw in query for kw in TOOL_KEYWORDS)
+
+
 @app.post("/ask")
 async def ask(query: str = Query(..., description="用户问题")):
-    """RAG 问答 — JSON 返回完整答案"""
-    full_answer = ""
-    for chunk in rag_ask(query, retriever, llm, memory):
-        full_answer += chunk
-    memory.add(query, full_answer)
-    return {"answer": full_answer}
+    """
+    统一入口 — 自动意图路由
+    - 工具类查询（"查一下CPU"）→ Agent 工具调用
+    - 知识类查询（"CPU过高怎么办"）→ RAG 问答
+    """
+    if is_tool_query(query):
+        result = await tool_ask(query, llm, registry)
+        memory.add(query, str(result))
+        return {"answer": result, "mode": "tool"}
+    else:
+        full_answer = ""
+        for chunk in rag_ask(query, retriever, llm, memory):
+            full_answer += chunk
+        memory.add(query, full_answer)
+        return {"answer": full_answer, "mode": "rag"}
 
 
 @app.post("/ask/stream")
 async def ask_stream(query: str = Query(..., description="用户问题")):
     """
-    RAG 问答 — SSE 流式输出
+    SSE 流式输出 — 同样带意图路由
     对应 GaussMaster 的 text/event-stream
     """
     async def generate():
-        for chunk in rag_ask(query, retriever, llm, memory):
-            yield chunk
-        memory.add(query, "")  # 流式输出完整内容由前端拼接
+        if is_tool_query(query):
+            # 工具调用不支持流式，一次返回
+            result = await tool_ask(query, llm, registry)
+            memory.add(query, str(result))
+            yield str(result)
+        else:
+            for chunk in rag_ask(query, retriever, llm, memory):
+                yield chunk
+            memory.add(query, "")
 
     return StreamingResponse(
         generate(),

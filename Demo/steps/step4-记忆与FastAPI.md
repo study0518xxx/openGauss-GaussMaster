@@ -38,13 +38,13 @@ class ConversationMemory:
 
 ## main.py 详解
 
-### 三个路由
+### 四个路由
 
 | 路由 | 方法 | 做什么 | 对应 GaussMaster |
 |------|------|--------|-----------------|
-| `/ask` | POST | RAG 问答，JSON 返回 | `ask_gauss` |
-| `/ask/stream` | POST | RAG 问答，SSE 流式 | `ask_gauss` 的 SSE |
-| `/tool` | POST | Agent 工具调用 | `intelligent-interaction` |
+| `/ask` | POST | **统一入口** — 自动识别意图：工具类查CPU/慢SQL → Agent，知识类问原理 → RAG | `ask_gauss` |
+| `/ask/stream` | POST | SSE 流式版 — 同样带意图路由 | `ask_gauss` 的 SSE |
+| `/tool` | POST | Agent 工具调用（显式指定，不走意图路由） | `intelligent-interaction` |
 | `/health` | GET | 健康检查 | — |
 
 ### SSE 流式输出怎么写
@@ -72,15 +72,19 @@ async def ask_stream(query: str):
 
 ```
 main.py (FastAPI)
-├─ POST /ask          → rag_ask()          → retriever.search() → LLM 流式
-├─ POST /ask/stream   → rag_ask() + SSE    → 同上 + text/event-stream
-├─ POST /tool         → tool_ask()         → agent_pipeline()  → 两阶段调用
+├─ POST /ask          → is_tool_query()? ──Yes──→ tool_ask() → agent_pipeline()
+│                                          └─No───→ rag_ask() → retriever → LLM
+├─ POST /ask/stream   → 同上 + SSE text/event-stream
+├─ POST /tool         → tool_ask() → agent_pipeline() → 两阶段调用（无意图路由）
 └─ GET  /health       → 健康检查
 
 engine.py
-├─ rag_ask()          RAG 问答管道（检索→prompt→LLM）
+├─ rag_ask()          RAG 问答管道（检索→prompt→LLM流式，带距离阈值防护）
 ├─ tool_ask()         Agent 工具调用（调用 agent_pipeline）
-└─ process_query()    意图路由（关键词判断 RAG 还是 Agent）
+
+main.py
+├─ is_tool_query()    关键词意图路由（工具类 vs 知识类）
+└─ TOOL_KEYWORDS      = ["查一下", "获取", "当前", "多少", ...]
 
 memory.py → ConversationMemory → 3轮滑动窗口 → 注入 prompt
 ```
@@ -88,7 +92,7 @@ memory.py → ConversationMemory → 3轮滑动窗口 → 注入 prompt
 ## 怎么跑
 
 ```powershell
-cd C:\2026\0703ddl\openGauss-GaussMaster\Demo
+cd C:\up2026\trae02\openGauss-GaussMaster\Demo
 
 # 启动服务
 python main.py

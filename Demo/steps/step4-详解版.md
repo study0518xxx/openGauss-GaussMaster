@@ -202,6 +202,31 @@ async def ask_stream(query: str):
 
 用户看到的是逐字打出来的效果，不用等全部生成完。这三个 headers 和 GaussMaster 源码完全一样。
 
+### ⚠️ 两个 "stream" 不是一回事
+
+容易搞混，但其实是两层，管的事不同：
+
+| 层 | 位置 | 作用 | 方向 |
+|----|------|------|------|
+| **LLM stream=True** | `llm_client.py:56` | 调 DeepSeek API 时逐 token 收结果 | DeepSeek → 你的后端 |
+| **StreamingResponse** | `main.py:90` | 你的后端逐 chunk 推给浏览器 | 你的后端 → 用户 |
+
+**完整链路**：
+
+```
+DeepSeek API                 你的后端                   浏览器
+┌──────────┐   stream=True   ┌──────────────┐  SSE     ┌──────┐
+│ 逐token   │ ──────────────→│ chat_stream() │ ──────→ │ 逐字  │
+│ 生成回答   │   token by     │ yield content  │ 推      │ 显示  │
+│           │   token        │               │         │      │
+│           │                │ StreamingResp │         │      │
+│           │                │ 包装成 SSE     │         │      │
+└──────────┘                └──────────────┘         └──────┘
+       LLM 层 ←─────────── 你的后端层 ───────────→ HTTP 传输层
+```
+
+如果只设 `stream=True` 但不包 `StreamingResponse`，`chat_stream()` 的逐 token yield 只是后端内部的生成器。最终 FastAPI 还是等全部收完才一次返回——效果和 `stream=False` 没区别。**两层缺一不可。**
+
 ---
 
 ## 六、改动前后对比
