@@ -1,0 +1,28 @@
+# GaussMaster Lite 配置文件
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+
+llm:
+  # 支持 openai 协议的任何服务（OpenAI, ollama, vllm, 硅基流动 等）
+  api_type: openai
+  api_base: "https://opencode.ai/zen/go/v1"
+  api_key: "sk-wYZq7GbsOvxsb0aD1eaqmPf6HfCxZWQfggSaMu4gI9UcHTp293I997h4xOZw5ikj"
+  model: "deepseek-v4-flash"
+  temperature: 0.7
+  max_tokens: 2048
+
+embedding:
+  # 使用 sentence-transformers 本地模型（离线可用，无需 API key）
+  model_name: "all-MiniLM-L6-v2"
+  device: "cpu"  # cpu / cuda
+
+# 知识库配置
+knowledge_base:
+  top_k: 5
+  similarity_threshold: 0.5
+
+# Agent 工具配置
+agent:
+  max_history: 5  # 多轮记忆保留轮数

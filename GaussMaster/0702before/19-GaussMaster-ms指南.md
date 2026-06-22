@@ -5,7 +5,7 @@
 - [面试者项目介绍](#面试者项目介绍)
 - [面试官20问](#面试官20问)
 
----
+***
 
 ## 面试者项目介绍
 
@@ -13,7 +13,7 @@
 
 > "我参与开发了一个基于大语言模型的数据库智能运维平台 GaussMaster。它通过 RAG 检索增强生成和 Function Calling 技术，让 DBA 可以用自然语言与数据库交互，实现告警查询、慢SQL诊断、索引推荐等运维操作。项目采用 Multi-Agent 架构，包含 DBA Agent、Reporter Agent 等多个角色协作，支持多轮对话和流式输出。我主要负责核心 Agent 逻辑、工具调用链路和 API 接口开发。"
 
----
+***
 
 ### 3分钟版本（标准介绍）
 
@@ -25,8 +25,7 @@
 
 "系统主要提供两大能力：
 
-1. **智能交互（Tool Calling）**：用户用自然语言描述需求，系统自动识别意图、提取参数、调用运维工具。比如用户说'查看昨天的告警'，系统会自动调用 summary_alarms 工具查询。
-
+1. **智能交互（Tool Calling）**：用户用自然语言描述需求，系统自动识别意图、提取参数、调用运维工具。比如用户说'查看昨天的告警'，系统会自动调用 summary\_alarms 工具查询。
 2. **智能问答（RAG）**：基于向量检索+大模型生成，回答数据库相关知识问题。支持多路召回（向量+文本）和 Reranker 重排序。"
 
 #### 技术架构
@@ -45,11 +44,11 @@
 "我在项目中主要负责：
 
 1. 设计 DBA Agent 的工具调用链路（意图识别→参数提取→工具执行）
-2. 实现多轮对话的状态保持机制（SESSION_TOOL_HISTORY）
+2. 实现多轮对话的状态保持机制（SESSION\_TOOL\_HISTORY）
 3. 开发 HTTP API 接口和参数校验装饰器
 4. 优化 Prompt 工程，提升工具识别准确率"
 
----
+***
 
 ### 5分钟版本（详细展开）
 
@@ -65,7 +64,7 @@
 
 **挑战2：如何处理多轮对话？**
 
-"比如用户先说'查看告警'，系统问'请提供时间范围'，用户回答'昨天'。这里需要保持'查看告警'这个意图。我们用 SESSION_TOOL_HISTORY 字典保存每个会话的当前意图，追问时不再重新识别。"
+"比如用户先说'查看告警'，系统问'请提供时间范围'，用户回答'昨天'。这里需要保持'查看告警'这个意图。我们用 SESSION\_TOOL\_HISTORY 字典保存每个会话的当前意图，追问时不再重新识别。"
 
 **挑战3：如何保证响应速度？**
 
@@ -74,18 +73,15 @@
 #### 技术亮点
 
 1. **Multi-Agent 架构**：不同 Agent 负责不同任务，DBA Agent 处理工具调用，Reporter Agent 生成诊断报告
-
-2. **双层存储**：内存缓存（SESSION_QA_HISTORY）+ SQLite 持久化，平衡速度和可靠性
-
+2. **双层存储**：内存缓存（SESSION\_QA\_HISTORY）+ SQLite 持久化，平衡速度和可靠性
 3. **自研 HTTP 框架**：基于 FastAPI 封装，通过装饰器实现路由注册和统一响应格式，业务代码与框架解耦
-
 4. **向量化检索**：支持 Embedding + 向量数据库 + Reranker 重排序，提升 RAG 准确率
 
 #### 项目成果
 
 "项目已开源，支持 15+ 运维工具，覆盖告警、SQL诊断、集群管理、参数调优等场景。在实际测试中，工具识别准确率超过 90%，平均响应时间 < 3秒。"
 
----
+***
 
 ## 面试官20问
 
@@ -102,7 +98,7 @@ GaussMaster 是华为开源的基于大语言模型的数据库智能运维平�
 
 技术栈包括 Python、FastAPI、向量数据库、LLM（盘古/ChatGLM等），采用 Multi-Agent 架构设计。
 
----
+***
 
 #### Q2：项目的核心架构是怎样的？
 
@@ -126,7 +122,7 @@ GaussMaster 是华为开源的基于大语言模型的数据库智能运维平�
 
 核心流程：HTTP请求 → Controller → Agent决策 → LLM推理 → 工具执行 → 返回结果
 
----
+***
 
 #### Q3：什么是 Function Calling？项目中怎么实现的？
 
@@ -143,6 +139,7 @@ Function Calling 是大模型的一种能力，让模型可以识别何时需要
 5. **工具执行**：`call_tool()` 调用实际函数
 
 **Prompt 示例**：
+
 ```
 你是一名内容匹配专家。可用工具：
 - summary_alarms: 获取告警信息
@@ -152,7 +149,7 @@ Function Calling 是大模型的一种能力，让模型可以识别何时需要
 请根据用户问题，输出最相关的工具名。
 ```
 
----
+***
 
 #### Q4：RAG 是什么？项目中怎么实现的？
 
@@ -169,7 +166,7 @@ RAG（Retrieval-Augmented Generation，检索增强生成）是一种结合向�
 
 **代码位置**：`server/web/data_transformer.py` 中的 `search()` 和 `llm_generation()`
 
----
+***
 
 #### Q5：项目中有哪些 Agent？分别做什么？
 
@@ -180,14 +177,12 @@ RAG（Retrieval-Augmented Generation，检索增强生成）是一种结合向�
 1. **DBA Agent**（`dba.py`）：核心 Agent，负责工具调用流程
    - 意图识别 → 参数提取 → 工具执行 → 结果返回
    - 支持多轮对话
-
 2. **Reporter Agent**：生成诊断报告（代码中提及，具体实现待完善）
-
 3. **Repairer Agent**：执行修复操作（规划中）
 
 DBA Agent 是核心，通过 `interact_with_tool()` 方法实现完整的工具调用链路。
 
----
+***
 
 ### 进阶问题（6-12）
 
@@ -218,6 +213,7 @@ else:
 ```
 
 **示例对话**：
+
 ```
 用户：查看告警
 系统：请提供时间范围
@@ -225,7 +221,7 @@ else:
 系统：调用 summary_alarms 查询昨天告警
 ```
 
----
+***
 
 #### Q7：工具调用链路是怎样的？
 
@@ -253,40 +249,45 @@ else:
 
 **代码位置**：`executor.py`
 
----
+***
 
 #### Q8：为什么使用 SQLite 而不是 openGauss？
 
 **参考答案**：
 
 **SQLite 用途**：
-- 存储会话历史（tb_interaction_memory）
+
+- 存储会话历史（tb\_interaction\_memory）
 - 存储集群配置、知识库元数据
 - 轻量级，无需额外部署
 
 **不用 openGauss 的原因**：
+
 1. **元数据量小**：会话历史、配置等数据量不大，SQLite 足够
 2. **部署简单**：SQLite 内嵌，无需独立数据库服务
 3. **解耦设计**：GaussMaster 管理 openGauss，不应该依赖被管理的对象
 4. **向量数据库独立**：RAG 使用专门的向量数据库（如 Milvus），不是关系型数据库
 
----
+***
 
 #### Q9：装饰器 `@request_mapping`、`@standardized_api_output` 分别做什么？
 
 **参考答案**：
 
 **`@request_mapping`**：
+
 - 注册 HTTP 路由
 - 将 URL 路径和函数绑定
 - 示例：`@request_mapping("/v1/api/clusters", method='GET')`
 
 **`@standardized_api_output`**：
+
 - 统一 API 响应格式
 - 包装返回值为 `{"success": true, "data": ...}`
 - 捕获异常，返回统一错误格式 `{"success": false, "msg": ...}`
 
 **执行顺序**：
+
 ```python
 @request_mapping(...)          # 最外层：注册路由
 @standardized_api_output       # 中间层：统一响应
@@ -295,7 +296,7 @@ def func():
     pass
 ```
 
----
+***
 
 #### Q10：SSE 流式输出是怎么实现的？
 
@@ -323,10 +324,11 @@ def standardized_event_stream_output(f):
 ```
 
 **使用场景**：
+
 - LLM 生成答案时逐字返回
 - 工具调用过程实时显示进度（"工具匹配中..."、"提取参数中..."）
 
----
+***
 
 #### Q11：工具是如何注册和发现的？
 
@@ -349,11 +351,13 @@ def summary_alarms(start_time, end_time):
 ```
 
 **注册过程**：
+
 1. 装饰器将函数注册到 `global_vars.tools_registry`
 2. 自动生成工具描述（JSON Schema）
 3. LLM 通过 `base_tools.detail_str_list` 获取所有工具描述
 
 **发现方式**：
+
 ```python
 # executor.py - infer_tool_name()
 _, detail_without_param_str_list = base_tools.detail_str_list
@@ -361,7 +365,7 @@ tools_des = '\n'.join(detail_without_param_str_list)
 # 将 tools_des 放入 Prompt，让 LLM 选择
 ```
 
----
+***
 
 #### Q12：双层存储机制是什么？
 
@@ -378,6 +382,7 @@ SESSION_QA_HISTORY = {}
 ```
 
 **读取流程**：
+
 ```python
 async def get_qa_history(self):
     # 1. 先查内存
@@ -394,11 +399,12 @@ async def get_qa_history(self):
 ```
 
 **优势**：
+
 - 内存快，但重启丢失
 - SQLite 持久化，但较慢
 - 结合两者，平衡速度和可靠性
 
----
+***
 
 ### 高级问题（13-20）
 
@@ -415,14 +421,11 @@ async def get_qa_history(self):
    cluster_diagnosis: 对集群进行全面诊断（深度检查）
    status_overview: 查看集群整体状态概览（快速查看）
    ```
-
 2. **兜底机制**：如果工具执行失败，提示用户重新描述
-
 3. **用户确认**：对于关键操作，可以让用户确认后再执行
-
 4. **日志分析**：收集错误案例，持续优化 Prompt
 
----
+***
 
 #### Q14：如何处理参数提取失败的情况？
 
@@ -447,6 +450,7 @@ if not is_complete:
 ```
 
 **用户体验**：
+
 ```
 用户：查看告警
 系统：缺少参数 start_time、end_time，请提供时间范围
@@ -454,7 +458,7 @@ if not is_complete:
 系统：调用工具查询...
 ```
 
----
+***
 
 #### Q15：项目的性能瓶颈在哪里？如何优化？
 
@@ -468,14 +472,14 @@ if not is_complete:
 
 **优化方案**：
 
-| 瓶颈 | 优化方案 |
-|------|---------|
+| 瓶颈     | 优化方案             |
+| ------ | ---------------- |
 | LLM 延迟 | SSE 流式输出，先返回进度提示 |
-| 向量检索 | 建立索引、缓存热点数据 |
-| 工具执行 | 异步执行、并行调用 |
-| 整体 | 引入缓存层（Redis）、预加载 |
+| 向量检索   | 建立索引、缓存热点数据      |
+| 工具执行   | 异步执行、并行调用        |
+| 整体     | 引入缓存层（Redis）、预加载 |
 
----
+***
 
 #### Q16：如何扩展一个新的运维工具？
 
@@ -494,28 +498,25 @@ if not is_complete:
        # 实现逻辑
        return result
    ```
-
 2. **系统自动注册**：装饰器自动将工具注册到 `tools_registry`
-
 3. **Prompt 自动更新**：`infer_tool_name()` 会自动获取新工具描述
-
 4. **无需修改其他代码**：系统通过反射调用工具
 
----
+***
 
 #### Q17：项目中使用了哪些设计模式？
 
 **参考答案**：
 
-| 设计模式 | 应用场景 | 代码位置 |
-|---------|---------|---------|
+| 设计模式      | 应用场景            | 代码位置                               |
+| --------- | --------------- | ---------------------------------- |
 | **装饰器模式** | 路由注册、参数校验、响应格式化 | `@request_mapping`、`@define_rules` |
-| **工厂模式** | LLM 实例化 | `instantiate_llm()` |
-| **注册表模式** | 工具注册 | `base_tools = Registry()` |
-| **策略模式** | 不同 LLM 的调用策略 | `BaseLLM` 子类 |
-| **代理模式** | HTTP 服务封装 | `HttpService` |
+| **工厂模式**  | LLM 实例化         | `instantiate_llm()`                |
+| **注册表模式** | 工具注册            | `base_tools = Registry()`          |
+| **策略模式**  | 不同 LLM 的调用策略    | `BaseLLM` 子类                       |
+| **代理模式**  | HTTP 服务封装       | `HttpService`                      |
 
----
+***
 
 #### Q18：如何保证系统的安全性？
 
@@ -529,7 +530,7 @@ if not is_complete:
 4. **访问控制**：API 权限控制（`api=True`）
 5. **敏感词过滤**：`DFA_DETECTOR` 检测不安全内容
 
----
+***
 
 #### Q19：项目的部署架构是怎样的？
 
@@ -561,7 +562,7 @@ if not is_complete:
 └─────────────────────────────────────┘
 ```
 
----
+***
 
 #### Q20：如果让你优化这个项目，你会从哪些方面入手？
 
@@ -573,23 +574,20 @@ if not is_complete:
    - 引入 Redis 缓存热点数据
    - LLM 调用异步并行化
    - 向量检索优化（索引、分片）
-
 2. **功能扩展**
    - 完善 Reporter Agent、Repairer Agent
    - 支持更多数据库类型（MySQL、PostgreSQL）
    - 增加可视化诊断报告
-
 3. **体验优化**
    - 支持语音输入
    - 增加操作确认机制
    - 优化错误提示
-
 4. **稳定性**
    - 增加限流、熔断机制
    - 完善监控和告警
    - 支持集群部署
 
----
+***
 
 ## 面试技巧总结
 
@@ -613,6 +611,6 @@ if not is_complete:
 2. 说不清楚自己的具体贡献
 3. 对项目难点和挑战避而不谈
 
----
+***
 
 *本文档基于 openGauss-GaussMaster v1.0.0*
